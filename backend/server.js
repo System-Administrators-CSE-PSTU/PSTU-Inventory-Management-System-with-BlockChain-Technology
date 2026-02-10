@@ -1,8 +1,12 @@
 import express from "express";
-import connectDB from "./config/db.js";
+// import connectDB from "./config/db.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
+
+dotenv.config(); // <--- This must be at the top
+
+import connectDB from './config/db.js'; // Import this AFTER dotenv config
 
 import { 
   departmentRoutes,
