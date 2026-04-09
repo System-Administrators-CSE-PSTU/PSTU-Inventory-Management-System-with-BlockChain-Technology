@@ -30,3 +30,7 @@ yarn-error.log*
 .idea/
 .DS_Store
 Thumbs.db
+
+/frontend/.next/cache/*
+/frontend/.next/cache/webpack
+/frontend/.next/cache/swe
