@@ -23,7 +23,7 @@
     "mongoose": "^8.20.1",
     "multer": "^2.0.2",
     "node-cron": "^4.2.1",
-    "nodemailer": "^7.0.10",
+    "nodemailer": "^8.0.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-scripts": "^0.0.0",
