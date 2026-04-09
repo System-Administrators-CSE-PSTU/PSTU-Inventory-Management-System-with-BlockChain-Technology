@@ -28,7 +28,7 @@ export default function OfficesPage() {
   const [isUpdating, setIsUpdating] = useState(false)
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/offices/get")
+    fetch(`${process.env.BACKEND_URL}/api/offices/get`)
       .then((response) => response.json())
       .then((data) => {
         setOffices(data)
@@ -67,7 +67,7 @@ export default function OfficesPage() {
 
     setIsUpdating(true)
     try {
-      const response = await fetch(`http://localhost:5000/api/offices/update/${editingOffice._id}`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/offices/update/${editingOffice._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +103,7 @@ export default function OfficesPage() {
   const handleDelete = (id) => {
     if (!confirm("Are you sure you want to delete this office?")) return
 
-    fetch(`http://localhost:5000/api/offices/delete/${id}`, {
+    fetch(`${process.env.BACKEND_URL}/api/offices/delete/${id}`, {
       method: "DELETE",
     })
       .then((response) => response.json())

@@ -1,8 +1,19 @@
 const { createServer } = require("http");
+const path = require("path");
+const dotenv = require("dotenv");
 const next = require("next");
 
-const port = parseInt(process.env.PORT, 10) || 3000;
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config({ path: path.join(process.cwd(), ".env") });
+}
+
 const dev = process.env.NODE_ENV !== "production";
+const port = Number.parseInt(process.env.PORT || "", 10);
+
+if (!Number.isFinite(port) || port <= 0) {
+  throw new Error("PORT environment variable is required.");
+}
+
 const app = next({ dev });
 const handle = app.getRequestHandler();
 

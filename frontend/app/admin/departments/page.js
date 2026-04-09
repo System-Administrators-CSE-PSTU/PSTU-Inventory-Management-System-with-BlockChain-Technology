@@ -27,7 +27,7 @@ export default function DepartmentsPage() {
   const [isLoadingUpdate, setIsLoadingUpdate] = useState(false)
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/departments/get")
+    fetch(`${process.env.BACKEND_URL}/api/departments/get`)
       .then((response) => response.json())
       .then((data) => {
         setDepartments(data)
@@ -75,7 +75,7 @@ export default function DepartmentsPage() {
 
     setIsLoadingUpdate(true)
     try {
-      const response = await fetch(`http://localhost:5000/api/departments/update/${selectedDepartment._id}`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/departments/update/${selectedDepartment._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -111,7 +111,7 @@ export default function DepartmentsPage() {
   }
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/api/departments/delete/${id}`, {
+    fetch(`${process.env.BACKEND_URL}/api/departments/delete/${id}`, {
       method: "DELETE",
     })
       .then((response) => response.json())

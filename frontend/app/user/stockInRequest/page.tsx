@@ -25,7 +25,7 @@ import Image from "next/image"
  * - image preview and upload
  * - validation, form submission and error handling
  *
- * Note: API endpoints are currently pointing to http://localhost:5000 — adjust for production.
+ * Note: API endpoints are configured via environment variables.
  */
 
 export default function StockInRequestPage() {
@@ -97,8 +97,8 @@ export default function StockInRequestPage() {
     const fetchProductsAndSuppliers = async () => {
       try {
         const [itemsRes, suppliersRes] = await Promise.all([
-          fetch("http://localhost:5000/api/items/get"),
-          fetch("http://localhost:5000/api/suppliers/get"),
+          fetch(`${process.env.BACKEND_URL}/api/items/get`),
+          fetch(`${process.env.BACKEND_URL}/api/suppliers/get`),
         ])
 
         if (itemsRes.ok) {
@@ -325,7 +325,7 @@ export default function StockInRequestPage() {
         imageName: imageFile.name,
       })
 
-      const res = await fetch("http://localhost:5000/api/stockInRequest/create", {
+      const res = await fetch(`${process.env.BACKEND_URL}/api/stockInRequest/create`, {
         method: "POST",
         body: payload,
       })
@@ -698,7 +698,7 @@ export default function StockInRequestPage() {
       </Card>
 
       {/* Extra footer notes and a debug panel for developers (toggleable) */}
-    
+
       <style jsx>{`
         /* Small styles specifically for suggestion lists and hover states */
         .suggestion-item:hover {

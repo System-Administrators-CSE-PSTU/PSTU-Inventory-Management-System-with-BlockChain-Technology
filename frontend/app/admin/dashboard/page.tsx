@@ -14,6 +14,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react"
+import { API_BASE_URL } from "@/lib/api"
 
 interface StockActivity {
   _id: string
@@ -59,8 +60,6 @@ interface Office {
   _id: string
   name: string
 }
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
 
 const API_ENDPOINTS = {
   departments: `${API_BASE_URL}/api/departments/get`,

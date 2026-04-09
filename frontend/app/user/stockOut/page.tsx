@@ -32,20 +32,20 @@ export default function MyStockOutPage() {
           return
         }
 
-        const response = await fetch(`http://localhost:5000/api/stockouts/user/${userId}`)
+        const response = await fetch(`${process.env.BACKEND_URL}/api/stockouts/user/${userId}`)
 
         if (!response.ok) {
           throw new Error("Failed to fetch stock outs")
         }
 
-          const data = await response.json()
-          console.log("Fetched stock outs data:", data)
+        const data = await response.json()
+        console.log("Fetched stock outs data:", data)
         const stockOutsArray = Array.isArray(data) ? data : data.data || []
 
         const enrichedStockOuts = await Promise.all(
           stockOutsArray.map(async (stockOut: any) => {
             try {
-              const productResponse = await fetch(`http://localhost:5000/api/items/get/${stockOut.item_id}`)
+              const productResponse = await fetch(`${process.env.BACKEND_URL}/api/items/get/${stockOut.item_id}`)
               if (productResponse.ok) {
                 const product = await productResponse.json()
                 return {

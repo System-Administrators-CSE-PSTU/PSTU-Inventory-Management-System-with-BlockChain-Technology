@@ -81,8 +81,8 @@ export default function CreateDeadstock() {
     const fetchData = async () => {
       try {
         const [usersRes, itemsRes] = await Promise.all([
-          fetch("http://localhost:5000/api/users/get"),
-          fetch("http://localhost:5000/api/items/get"),
+          fetch(`${process.env.BACKEND_URL}/api/users/get`),
+          fetch(`${process.env.BACKEND_URL}/api/items/get`),
         ])
 
         if (usersRes.ok) {
@@ -122,7 +122,7 @@ export default function CreateDeadstock() {
     try {
       setLoadingQuantity(true)
       const response = await fetch(
-        `http://localhost:5000/api/currentstockouts/quantity?user_id=${userId}&item_id=${itemId}`,
+        `${process.env.BACKEND_URL}/api/currentstockouts/quantity?user_id=${userId}&item_id=${itemId}`,
       )
 
       if (!response.ok) {
@@ -212,7 +212,7 @@ export default function CreateDeadstock() {
 
       console.log("Sending deadstock data:", deadstockData)
 
-      const response = await fetch("http://localhost:5000/api/deadstocks/create", {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/deadstocks/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -247,7 +247,7 @@ export default function CreateDeadstock() {
       }
 
       try {
-        const updateResponse = await fetch("http://localhost:5000/api/currentstockouts/update-quantity", {
+        const updateResponse = await fetch(`${process.env.BACKEND_URL}/api/currentstockouts/update-quantity`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

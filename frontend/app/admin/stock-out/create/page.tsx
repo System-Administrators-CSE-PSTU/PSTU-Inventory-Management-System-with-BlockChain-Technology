@@ -75,7 +75,7 @@ function UserDropdown({ value, onChange, onUserSelect, placeholder = "Search by 
     const fetchUsers = async () => {
       try {
         setLoading(true)
-        const response = await fetch("http://localhost:5000/api/users/get")
+        const response = await fetch(`${process.env.BACKEND_URL}/api/users/get`)
         if (response.ok) {
           const data = await response.json()
           setUsers(Array.isArray(data) ? data : [])
@@ -197,7 +197,7 @@ function ItemDropdown({ value, onChange, placeholder = "Search by item name", er
     const fetchItems = async () => {
       try {
         setLoading(true)
-        const response = await fetch("http://localhost:5000/api/items/get")
+        const response = await fetch(`${process.env.BACKEND_URL}/api/items/get`)
         if (response.ok) {
           const data = await response.json()
           setItems(Array.isArray(data) ? data : [])
@@ -348,7 +348,7 @@ export default function CreateStockOut() {
         setLoadingStockIn(true)
 
         // Fetch stock in records from the stockins API
-        const stockInResponse = await fetch("http://localhost:5000/api/stockins/get")
+        const stockInResponse = await fetch(`${process.env.BACKEND_URL}/api/stockins/get`)
         if (!stockInResponse.ok) {
           throw new Error(`HTTP error! status: ${stockInResponse.status}`)
         }
@@ -383,7 +383,7 @@ export default function CreateStockOut() {
     try {
       setLoadingUser(true)
       setUserNotFound(false)
-      const response = await fetch(`http://localhost:5000/api/users/get/${userId}`)
+      const response = await fetch(`${process.env.BACKEND_URL}/api/users/get/${userId}`)
 
       if (!response.ok) {
         if (response.status === 404) {
@@ -451,7 +451,7 @@ export default function CreateStockOut() {
 
   const checkServerConnection = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/stockins/get", {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/stockins/get`, {
         method: "HEAD",
       })
       return response.ok
@@ -470,7 +470,7 @@ export default function CreateStockOut() {
     const serverOnline = await checkServerConnection()
     if (!serverOnline) {
       setErrors({
-        submit: "Cannot connect to server. Please check if the backend server is running on http://localhost:5000",
+        submit: "Cannot connect to server. Please verify backend service and environment configuration.",
       })
       return
     }
@@ -507,7 +507,7 @@ export default function CreateStockOut() {
 
         console.log("Sending stock out data:", stockOutData)
 
-        const response = await fetch("http://localhost:5000/api/stockouts/create", {
+        const response = await fetch(`${process.env.BACKEND_URL}/api/stockouts/create`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -547,47 +547,47 @@ export default function CreateStockOut() {
 
 
       const currentStockOutPromises = issueItems.map(async (item) => {
-  const bodyData = {
-    user_id: formData.user_id,
-    department_id: userInfo?.department_id || null,
-    office_id: userInfo?.office_id || null,
-    item_id: item.itemId,
-    issue_type: "manual",
-    issue_by: formData.issue_by,
-    issue_date: formData.issueDate,
-    quantity: item.quantity,
-    remarks: formData.remarks,
-  }
+        const bodyData = {
+          user_id: formData.user_id,
+          department_id: userInfo?.department_id || null,
+          office_id: userInfo?.office_id || null,
+          item_id: item.itemId,
+          issue_type: "manual",
+          issue_by: formData.issue_by,
+          issue_date: formData.issueDate,
+          quantity: item.quantity,
+          remarks: formData.remarks,
+        }
 
-  console.log("Sending current stock-out:", bodyData)
+        console.log("Sending current stock-out:", bodyData)
 
-  try {
-    const response = await fetch("http://localhost:5000/api/currentstockouts/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(bodyData),
-    })
+        try {
+          const response = await fetch(`${process.env.BACKEND_URL}/api/currentstockouts/create`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(bodyData),
+          })
 
-    const responseData = await response.json()
+          const responseData = await response.json()
 
-    if (!response.ok) {
-      console.error("Current stock-out failed:", responseData)
-      throw new Error(responseData?.message || "Failed to create current stock-out record")
-    }
+          if (!response.ok) {
+            console.error("Current stock-out failed:", responseData)
+            throw new Error(responseData?.message || "Failed to create current stock-out record")
+          }
 
-    console.log("Current stock-out created:", responseData)
-    return responseData
-  } catch (error) {
-    console.error("Error creating current stock-out:", error)
-    throw error
-  }
-})
+          console.log("Current stock-out created:", responseData)
+          return responseData
+        } catch (error) {
+          console.error("Error creating current stock-out:", error)
+          throw error
+        }
+      })
       await Promise.all(currentStockOutPromises)
       // Update available quantity after successful stock out
       const updateQuantityPromises = issueItems.map((item) =>
-        fetch("http://localhost:5000/api/currentstockins/update-quantity", {
+        fetch(`${process.env.BACKEND_URL}/api/currentstockins/update-quantity`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -678,7 +678,7 @@ export default function CreateStockOut() {
   const fetchAvailableQuantity = async (itemId: string, issuedByUserId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/currentstockins/quantity?user_id=${issuedByUserId}&item_id=${itemId}`,
+        `${process.env.BACKEND_URL}/api/currentstockins/quantity?user_id=${issuedByUserId}&item_id=${itemId}`,
       )
 
       if (response.ok) {

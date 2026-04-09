@@ -6,13 +6,9 @@ import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, CheckCircle, Clock, X, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { API_BASE_URL } from "@/lib/api"
 
-const API_BASE =
-  typeof window !== "undefined"
-    ? window.location.hostname === "localhost"
-      ? "http://localhost:5000"
-      : ""
-    : "http://localhost:5000"
+const API_BASE = API_BASE_URL
 
 // ---------- Types ----------
 
@@ -200,7 +196,7 @@ async function createDeadStockEntry(request: DeadStockRequest) {
     try {
       const errData = await res.json()
       errMsg = errData.message || JSON.stringify(errData)
-    } catch (e) {}
+    } catch (e) { }
     throw new Error(errMsg)
   }
 

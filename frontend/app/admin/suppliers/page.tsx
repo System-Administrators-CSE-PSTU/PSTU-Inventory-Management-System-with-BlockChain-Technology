@@ -17,7 +17,7 @@ export default function SuppliersPage() {
   useEffect(() => {
     const fetchSuppliers = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/suppliers/get")
+        const response = await fetch(`${process.env.BACKEND_URL}/api/suppliers/get`)
         if (!response.ok) {
           throw new Error("Failed to fetch suppliers")
         }

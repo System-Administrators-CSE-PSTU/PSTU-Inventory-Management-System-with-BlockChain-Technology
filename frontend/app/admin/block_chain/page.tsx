@@ -92,7 +92,7 @@ export default function BlockchainVerification() {
     }
 
     try {
-      const endpoint = `http://localhost:5000/api/${type}s/get/${id}`
+      const endpoint = `${process.env.BACKEND_URL}/api/${type}s/get/${id}`
       const response = await fetch(endpoint)
 
       if (response.ok) {
@@ -157,7 +157,7 @@ export default function BlockchainVerification() {
     setVerificationResult(null)
 
     try {
-      const stockInResponse = await fetch(`http://localhost:5000/api/stockins/get/${stockInId}`)
+      const stockInResponse = await fetch(`${process.env.BACKEND_URL}/api/stockins/get/${stockInId}`)
       if (!stockInResponse.ok) {
         throw new Error("StockIn request not found")
       }
@@ -166,7 +166,7 @@ export default function BlockchainVerification() {
       const enhancedData = await enhancedStockInData(stockIn)
       setStockInData(enhancedData)
 
-      const blockchainResponse = await fetch(`http://localhost:5000/api/blockchain/audit/${stockInId}`)
+      const blockchainResponse = await fetch(`${process.env.BACKEND_URL}/api/blockchain/audit/${stockInId}`)
       if (!blockchainResponse.ok) {
         throw new Error("No blockchain audit trail found for this StockIn ID")
       }
@@ -349,9 +349,8 @@ export default function BlockchainVerification() {
                         {/* Timeline marker */}
                         <div className="flex flex-col items-center">
                           <div
-                            className={`w-12 h-12 rounded-full flex items-center justify-center font-semibold text-sm ${
-                              block.is_verified ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                            }`}
+                            className={`w-12 h-12 rounded-full flex items-center justify-center font-semibold text-sm ${block.is_verified ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                              }`}
                           >
                             {idx + 1}
                           </div>
@@ -359,9 +358,8 @@ export default function BlockchainVerification() {
 
                         {/* Event details */}
                         <div
-                          className={`flex-1 p-4 rounded-lg border-2 ${
-                            block.is_verified ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"
-                          }`}
+                          className={`flex-1 p-4 rounded-lg border-2 ${block.is_verified ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"
+                            }`}
                         >
                           <div className="flex items-start justify-between">
                             <div>

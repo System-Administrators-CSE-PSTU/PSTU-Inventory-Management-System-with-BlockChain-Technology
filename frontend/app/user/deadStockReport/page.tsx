@@ -61,7 +61,7 @@ export default function ReportDeadStockPage() {
 
     const fetchProducts = async () => {
       try {
-        const itemsRes = await fetch("http://localhost:5000/api/items/get")
+        const itemsRes = await fetch(`${process.env.BACKEND_URL}/api/items/get`)
 
         if (itemsRes.ok) {
           const itemsData = await itemsRes.json()
@@ -90,7 +90,7 @@ export default function ReportDeadStockPage() {
     setLoadingStockCount(true)
     try {
       const res = await fetch(
-        `http://localhost:5000/api/currentstockouts/quantity?user_id=${currentUser.id}&item_id=${itemId}`,
+        `${process.env.BACKEND_URL}/api/currentstockouts/quantity?user_id=${currentUser.id}&item_id=${itemId}`,
       )
 
       if (res.ok) {
@@ -246,7 +246,7 @@ export default function ReportDeadStockPage() {
         formDataToSubmit.append("image", selectedImage, selectedImage.name)
       }
 
-      const res = await fetch("http://localhost:5000/api/deadstockrequests/create", {
+      const res = await fetch(`${process.env.BACKEND_URL}/api/deadstockrequests/create`, {
         method: "POST",
         body: formDataToSubmit,
       })

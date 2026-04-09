@@ -1,23 +1,20 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# global
+
 .env
-.env.local
 
 node_modules/
 
-backend/node_modules/
-backend/.env
-backend/uploads/
-
-frontend/node_modules/
-frontend/.env
-
 out/
 out.zip
-
 dist/
 build/
 
 .cph
 .venv
+.vscode/
+.idea/
 
 *.log
 npm-debug.log*
@@ -25,12 +22,43 @@ yarn-error.log*
 
 *.db
 *.sqlite
-
-.vscode/
-.idea/
 .DS_Store
 Thumbs.db
 
-/frontend/.next/cache/*
-/frontend/.next/cache/webpack
-/frontend/.next/cache/swe
+# frontend
+
+frontend/node_modules
+frontend/.env
+frontend/.next/cache/
+# dependencies
+frontend/.pnp
+frontend/.pnp.*
+frontend/.yarn/*
+frontend/!.yarn/patches
+frontend/!.yarn/plugins
+frontend/!.yarn/releases
+frontend/!.yarn/versions
+# testing
+frontend/coverage
+# production
+frontend/build
+# Misc
+frontend/.DS_Store
+frontend/*.pem
+# debug
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.pnpm-debug.log*
+# vercel
+frontend/.vercel
+# typescript
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
+
+# backend
+
+backend/node_modules/
+backend/.env
+backend/uploads/
+

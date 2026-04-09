@@ -22,6 +22,7 @@ import {
   X,
 } from "lucide-react"
 import Link from "next/link"
+import { API_BASE_URL } from "@/lib/api"
 
 // Types for API data
 interface DeadstockRecord {
@@ -79,8 +80,6 @@ export default function DeadstockPage() {
     reason: "",
   })
   const [updating, setUpdating] = useState(false)
-
-  const API_BASE_URL = "http://localhost:5000"
 
   // Fetch all required data
   useEffect(() => {
@@ -296,10 +295,10 @@ export default function DeadstockPage() {
           prev.map((r) =>
             r._id === editingRecord._id
               ? {
-                  ...r,
-                  quantity: formData.quantity,
-                  reason: formData.reason,
-                }
+                ...r,
+                quantity: formData.quantity,
+                reason: formData.reason,
+              }
               : r,
           ),
         )
@@ -307,10 +306,10 @@ export default function DeadstockPage() {
           prev.map((r) =>
             r._id === editingRecord._id
               ? {
-                  ...r,
-                  quantity: formData.quantity,
-                  reason: formData.reason,
-                }
+                ...r,
+                quantity: formData.quantity,
+                reason: formData.reason,
+              }
               : r,
           ),
         )

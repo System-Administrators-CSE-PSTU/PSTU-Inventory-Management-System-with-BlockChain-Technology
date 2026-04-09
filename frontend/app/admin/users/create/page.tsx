@@ -42,16 +42,16 @@ export default function CreateUser() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const [departments, setDepartments] = useState<Department[]>([]);
- // To store fetched departments
+  // To store fetched departments
   const [offices, setOffices] = useState<Office[]>([]);
- // To store fetched offices
+  // To store fetched offices
   const [apiError, setApiError] = useState("") // To store any API fetch errors
 
   // Fetch departments and offices from the API on component mount
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/departments/get")
+        const response = await fetch(`${process.env.BACKEND_URL}/api/departments/get`)
         if (!response.ok) {
           throw new Error("Failed to fetch departments")
         }
@@ -60,10 +60,10 @@ export default function CreateUser() {
         setDepartments(data)
       } catch (err) {
         if (err instanceof Error) {
-  setApiError("Error fetching departments: " + err.message)
-} else {
-  setApiError("An unknown error occurred.")
-}
+          setApiError("Error fetching departments: " + err.message)
+        } else {
+          setApiError("An unknown error occurred.")
+        }
 
         console.error(err)
       }
@@ -71,7 +71,7 @@ export default function CreateUser() {
 
     const fetchOffices = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/offices/get")
+        const response = await fetch(`${process.env.BACKEND_URL}/api/offices/get`)
         if (!response.ok) {
           throw new Error("Failed to fetch offices")
         }
@@ -80,10 +80,10 @@ export default function CreateUser() {
         setOffices(data)
       } catch (err) {
         if (err instanceof Error) {
-  setApiError("Error fetching departments: " + err.message)
-} else {
-  setApiError("An unknown error occurred.")
-}
+          setApiError("Error fetching departments: " + err.message)
+        } else {
+          setApiError("An unknown error occurred.")
+        }
 
         console.error(err)
       }
@@ -129,7 +129,7 @@ export default function CreateUser() {
     setLoading(true)
 
     try {
-      const response = await fetch("http://localhost:5000/api/users/create", {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/users/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

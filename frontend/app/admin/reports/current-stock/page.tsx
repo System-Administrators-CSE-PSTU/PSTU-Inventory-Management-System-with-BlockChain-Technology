@@ -61,7 +61,7 @@ export default function InventoryTotalReport() {
   const fetchCategoryName = async (categoryId: string): Promise<string> => {
     try {
       if (!categoryId || !/^[0-9a-fA-F]{24}$/.test(categoryId)) return "N/A"
-      const res = await fetch(`http://localhost:5000/api/categories/get/${categoryId}`)
+      const res = await fetch(`${process.env.BACKEND_URL}/api/categories/get/${categoryId}`)
       if (!res.ok) return "N/A"
       const category: Category = await res.json()
       return category.name || "N/A"
@@ -72,13 +72,13 @@ export default function InventoryTotalReport() {
 
   const fetchStockStats = async (productId: string) => {
     try {
-      const stockInRes = await fetch(`http://localhost:5000/api/stockins/item/${productId}`)
+      const stockInRes = await fetch(`${process.env.BACKEND_URL}/api/stockins/item/${productId}`)
       const stockInData = stockInRes.ok ? await stockInRes.json() : null
 
-      const stockOutRes = await fetch(`http://localhost:5000/api/stockouts/item/${productId}`)
+      const stockOutRes = await fetch(`${process.env.BACKEND_URL}/api/stockouts/item/${productId}`)
       const stockOutData = stockOutRes.ok ? await stockOutRes.json() : null
 
-      const deadStockRes = await fetch(`http://localhost:5000/api/deadstocks/item/${productId}`)
+      const deadStockRes = await fetch(`${process.env.BACKEND_URL}/api/deadstocks/item/${productId}`)
       const deadStockData = deadStockRes.ok ? await deadStockRes.json() : null
 
       const stockIn = getQuantitySum(stockInData)
@@ -130,7 +130,7 @@ export default function InventoryTotalReport() {
   }
 
   const fetchInventoryData = async (signal?: AbortSignal): Promise<InventoryItem[]> => {
-    const res = await fetch("http://localhost:5000/api/items/get", { signal })
+    const res = await fetch(`${process.env.BACKEND_URL}/api/items/get`, { signal })
     if (!res.ok) throw new Error(await res.text())
     const items = await res.json()
 
@@ -189,11 +189,10 @@ export default function InventoryTotalReport() {
         <div style="font-family: Arial, sans-serif; padding: 20px; background-color: white;">
           <!-- Logo in round shape -->
           <div style="text-align:center; margin-bottom: 15px;">
-            ${
-              logoBase64
-                ? `<img src="${logoBase64}" alt="PSTU Logo" style="width:90px; height:90px; border-radius:50%; object-fit:cover; display:block; margin:0 auto 10px;" />`
-                : ""
-            }
+            ${logoBase64
+          ? `<img src="${logoBase64}" alt="PSTU Logo" style="width:90px; height:90px; border-radius:50%; object-fit:cover; display:block; margin:0 auto 10px;" />`
+          : ""
+        }
           </div>
 
           <div style="text-align:center; margin-bottom: 20px;">
@@ -220,13 +219,13 @@ export default function InventoryTotalReport() {
             </thead>
             <tbody>
               ${data
-                .map((item: any, i: number) => {
-                  const stockIn = Number(item.stock_in) || 0
-                  const stockOut = Number(item.stock_out) || 0
-                  const deadStock = Number(item.dead_stock) || 0
-                  const currentStock = Number(item.current_stock) || Math.max(0, stockIn - stockOut - deadStock)
+          .map((item: any, i: number) => {
+            const stockIn = Number(item.stock_in) || 0
+            const stockOut = Number(item.stock_out) || 0
+            const deadStock = Number(item.dead_stock) || 0
+            const currentStock = Number(item.current_stock) || Math.max(0, stockIn - stockOut - deadStock)
 
-                  return `
+            return `
                     <tr>
                       <td style="border:1px solid #ddd; padding:6px; text-align:center;">${i + 1}</td>
                       <td style="border:1px solid #ddd; padding:6px;">${item.name ?? ""}</td>
@@ -236,8 +235,8 @@ export default function InventoryTotalReport() {
                       <td style="border:1px solid #ddd; padding:6px; text-align:center; background-color:#e3f2fd; font-weight:bold;">${currentStock}</td>
                     </tr>
                   `
-                })
-                .join("")}
+          })
+          .join("")}
             </tbody>
           </table>
 

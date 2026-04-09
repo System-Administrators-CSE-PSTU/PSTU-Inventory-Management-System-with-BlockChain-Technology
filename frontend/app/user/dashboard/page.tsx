@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { ChevronUp, ChevronDown, ArrowUpRight, ArrowDownRight, Trash2, RefreshCw, UserIcon } from "lucide-react"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
+import { API_BASE_URL } from "@/lib/api"
 
 interface StockActivity {
   _id: string
@@ -51,8 +52,6 @@ interface Office {
   _id: string
   name: string
 }
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
 
 const API_ENDPOINTS = {
   getUserById: (userId: string) => `${API_BASE_URL}/api/users/get/${userId}`,

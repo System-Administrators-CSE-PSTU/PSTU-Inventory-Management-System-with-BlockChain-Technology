@@ -182,23 +182,36 @@ Notes:
 
 ### Environment Variables
 
-Create `.env` in `backend/`:
+For local development, create `.env` in `backend/`:
 
 ````env
 JWT_SECRET=your_jwt_secret
 EMAIL_USER=your_email@gmail.com
 EMAIL_PASS=your_email_password
 MONGO_URI=mongodb+srv://<user>:<pass>@cluster
+DNS_SERVERS=1.1.1.1,8.8.8.8
 PORT=5000
 BLOCKCHAIN_SIGNING_KEY=your_signing_key
-REACT_APP_API_URL=http://localhost:5000/api
+BACKEND_URL=http://localhost:5000
+FRONTEND_URL=http://localhost:3000
 
 ````
 
-For frontend (`frontend/.env.local`):
+For frontend (`frontend/.env`):
 
 ````env
-NEXT_PUBLIC_API_URL=http://localhost:5000
+PORT=3000
+BACKEND_URL=http://localhost:5000
+FRONTEND_URL=http://localhost:3000
+````
+
+For production, keep `backend/.env.production` and `frontend/.env.production` as templates only, then set the real values in your hosting environment or cPanel Node app settings. Use:
+
+````env
+BACKEND_URL=https://api.stock.pstu.ac.bd
+FRONTEND_URL=https://stock.pstu.ac.bd
+BACKEND_URL=https://api.stock.pstu.ac.bd
+FRONTEND_URL=https://stock.pstu.ac.bd
 ````
 
 ### Run Backend

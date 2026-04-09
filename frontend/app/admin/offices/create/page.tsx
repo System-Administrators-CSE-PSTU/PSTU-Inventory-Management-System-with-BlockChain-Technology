@@ -40,7 +40,7 @@ export default function CreateOffice() {
 
     try {
       // Send data to backend API
-      const response = await fetch("http://localhost:5000/api/offices/create", {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/offices/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

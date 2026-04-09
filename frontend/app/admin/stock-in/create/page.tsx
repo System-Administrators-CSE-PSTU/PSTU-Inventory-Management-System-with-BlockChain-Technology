@@ -95,7 +95,7 @@ export default function CreateStockIn() {
     const fetchSuppliers = async () => {
       try {
         setLoadingSuppliers(true)
-        const response = await fetch("http://localhost:5000/api/suppliers/get")
+        const response = await fetch(`${process.env.BACKEND_URL}/api/suppliers/get`)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
@@ -119,7 +119,7 @@ export default function CreateStockIn() {
     const fetchItems = async () => {
       try {
         setLoadingItems(true)
-        const response = await fetch("http://localhost:5000/api/items/get")
+        const response = await fetch(`${process.env.BACKEND_URL}/api/items/get`)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
@@ -143,7 +143,7 @@ export default function CreateStockIn() {
     const fetchUsers = async () => {
       try {
         setLoadingUsers(true)
-        const response = await fetch("http://localhost:5000/api/users/get")
+        const response = await fetch(`${process.env.BACKEND_URL}/api/users/get`)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
@@ -173,7 +173,7 @@ export default function CreateStockIn() {
     try {
       setLoadingUser(true)
       setUserNotFound(false)
-      const response = await fetch(`http://localhost:5000/api/users/get/${userId}`)
+      const response = await fetch(`${process.env.BACKEND_URL}/api/users/get/${userId}`)
 
       if (!response.ok) {
         if (response.status === 404) {
@@ -247,7 +247,7 @@ export default function CreateStockIn() {
 
   const checkServerConnection = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/suppliers/get", {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/suppliers/get`, {
         method: "HEAD",
       })
       return response.ok
@@ -264,7 +264,7 @@ export default function CreateStockIn() {
     const serverOnline = await checkServerConnection()
     if (!serverOnline) {
       setErrors({
-        submit: "Cannot connect to server. Please check if the backend server is running on http://localhost:5000",
+        submit: "Cannot connect to server. Please verify backend service and environment configuration.",
       })
       return
     }
@@ -293,7 +293,7 @@ export default function CreateStockIn() {
       console.log("Starting StockIn API requests...")
       const stockInPromises = stockPayloads.map(async (item) => {
         console.log("Sending StockIn data:", item)
-        const res = await fetch("http://localhost:5000/api/stockins/create", {
+        const res = await fetch(`${process.env.BACKEND_URL}/api/stockins/create`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(item),
@@ -308,7 +308,7 @@ export default function CreateStockIn() {
       console.log("Starting CurrentStockIn API requests...")
       const currentStockPromises = stockPayloads.map(async (item) => {
         console.log("Sending CurrentStockIn data:", item)
-        const res = await fetch("http://localhost:5000/api/currentstockins/create", {
+        const res = await fetch(`${process.env.BACKEND_URL}/api/currentstockins/create`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(item),
@@ -790,9 +790,8 @@ export default function CreateStockIn() {
                         onValueChange={(value) => handleStockItemChange(index, "itemId", value)}
                       >
                         <SelectTrigger
-                          className={`focus:border-blue-500 ${
-                            errors[`item_${index}`] ? "border-red-300" : "border-gray-300"
-                          }`}
+                          className={`focus:border-blue-500 ${errors[`item_${index}`] ? "border-red-300" : "border-gray-300"
+                            }`}
                         >
                           <SelectValue placeholder="Select Item" />
                         </SelectTrigger>
@@ -820,9 +819,8 @@ export default function CreateStockIn() {
                         value={stockItem.quantity || ""}
                         onChange={(e) => handleStockItemChange(index, "quantity", Number.parseInt(e.target.value) || 0)}
                         placeholder="0"
-                        className={`focus:border-blue-500 ${
-                          errors[`quantity_${index}`] ? "border-red-300" : "border-gray-300"
-                        }`}
+                        className={`focus:border-blue-500 ${errors[`quantity_${index}`] ? "border-red-300" : "border-gray-300"
+                          }`}
                       />
                       {errors[`quantity_${index}`] && (
                         <p className="text-sm text-red-600">{errors[`quantity_${index}`]}</p>
@@ -843,9 +841,8 @@ export default function CreateStockIn() {
                           handleStockItemChange(index, "unitPrice", Number.parseFloat(e.target.value) || 0)
                         }
                         placeholder="0.00"
-                        className={`focus:border-blue-500 ${
-                          errors[`unitPrice_${index}`] ? "border-red-300" : "border-gray-300"
-                        }`}
+                        className={`focus:border-blue-500 ${errors[`unitPrice_${index}`] ? "border-red-300" : "border-gray-300"
+                          }`}
                       />
                       {errors[`unitPrice_${index}`] && (
                         <p className="text-sm text-red-600">{errors[`unitPrice_${index}`]}</p>

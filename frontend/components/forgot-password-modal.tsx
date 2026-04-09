@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Loader2 } from "lucide-react"
+import { apiUrl } from "@/lib/api"
 
 type Step = "email" | "otp" | "password"
 
@@ -33,7 +34,7 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
     setSuccess("")
 
     try {
-      const response = await fetch("http://localhost:5000/api/users/request-password-otp", {
+      const response = await fetch(apiUrl("/api/users/request-password-otp"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +64,7 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
     setSuccess("")
 
     try {
-      const response = await fetch("http://localhost:5000/api/users/verify-password-otp", {
+      const response = await fetch(apiUrl("/api/users/verify-password-otp"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -105,7 +106,7 @@ export function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordModalProp
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/users/update-password", {
+      const response = await fetch(apiUrl("/api/users/update-password"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

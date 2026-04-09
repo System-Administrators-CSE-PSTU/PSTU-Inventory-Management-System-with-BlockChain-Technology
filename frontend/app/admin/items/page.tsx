@@ -41,7 +41,7 @@ export default function ItemsPage() {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/items/get")
+        const response = await fetch(`${process.env.BACKEND_URL}/api/items/get`)
         if (response.ok) {
           const data = await response.json()
           setItems(data)
@@ -120,7 +120,7 @@ export default function ItemsPage() {
 
     setIsSaving(true)
     try {
-      const response = await fetch(`http://localhost:5000/api/items/update/${selectedItem.id}`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/items/update/${selectedItem.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -159,7 +159,7 @@ export default function ItemsPage() {
 
     setDeletingId(id)
     try {
-      const response = await fetch(`http://localhost:5000/api/items/delete/${id}`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/items/delete/${id}`, {
         method: "DELETE",
       })
 

@@ -1,8 +1,20 @@
 import mongoose from 'mongoose';
-import { MONGO_URI } from './config.js';
+import dns from 'node:dns';
+
+function configureDnsServers() {
+    const configured = (process.env.DNS_SERVERS || '1.1.1.1,8.8.8.8')
+        .split(',')
+        .map((value) => value.trim())
+        .filter(Boolean);
+
+    if (configured.length > 0) {
+        dns.setServers(configured);
+    }
+}
 
 const connectDB = async () => {
     try {
+        configureDnsServers();
         // Inside config/db.js
         // console.log("Attempting to connect with URI:", process.env.MONGO_URI); // Debug line
         const conn = await mongoose.connect(process.env.MONGO_URI);

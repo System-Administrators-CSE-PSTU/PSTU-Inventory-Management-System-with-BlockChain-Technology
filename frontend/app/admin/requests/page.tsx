@@ -6,13 +6,9 @@ import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, CheckCircle, Clock, X, User, Package } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { API_BASE_URL } from "@/lib/api"
 
-const API_BASE =
-  typeof window !== "undefined"
-    ? window.location.hostname === "localhost"
-      ? (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000")
-      : (process.env.NEXT_PUBLIC_API_URL || "")
-    : (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000")
+const API_BASE = API_BASE_URL
 
 // ---------- Types ----------
 
@@ -274,7 +270,7 @@ async function createStockInEntry(request: StockRequest, formData?: any) {
     try {
       const errData = await res.json()
       errMsg = errData.message || JSON.stringify(errData)
-    } catch (e) {}
+    } catch (e) { }
     throw new Error(errMsg)
   }
 
@@ -423,7 +419,7 @@ export default function StockRequestsPage() {
         try {
           const d = await res.json()
           msg = d.message || JSON.stringify(d)
-        } catch (e) {}
+        } catch (e) { }
         throw new Error(msg)
       }
 

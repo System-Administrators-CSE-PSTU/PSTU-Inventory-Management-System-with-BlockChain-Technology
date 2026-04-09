@@ -74,13 +74,13 @@ export default function TeachersPage() {
         setLoading(true)
         setError("")
 
-        const teachersResponse = await fetch("http://localhost:5000/api/users/get-teachers")
+        const teachersResponse = await fetch(`${process.env.BACKEND_URL}/api/users/get-teachers`)
         if (!teachersResponse.ok) {
           throw new Error("Failed to fetch teachers")
         }
         const teachersData: Teacher[] = await teachersResponse.json()
 
-        const departmentsResponse = await fetch("http://localhost:5000/api/departments/get")
+        const departmentsResponse = await fetch(`${process.env.BACKEND_URL}/api/departments/get`)
         if (!departmentsResponse.ok) {
           throw new Error("Failed to fetch departments")
         }
@@ -162,7 +162,7 @@ export default function TeachersPage() {
 
     try {
       setUpdateLoading(true)
-      const response = await fetch(`http://localhost:5000/api/users/update/${selectedTeacher._id}`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/users/update/${selectedTeacher._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -181,9 +181,9 @@ export default function TeachersPage() {
         prev.map((teacher) =>
           teacher._id === selectedTeacher._id
             ? {
-                ...teacher,
-                ...editFormData,
-              }
+              ...teacher,
+              ...editFormData,
+            }
             : teacher,
         ),
       )
@@ -193,9 +193,9 @@ export default function TeachersPage() {
         prev.map((teacher) =>
           teacher._id === selectedTeacher._id
             ? {
-                ...teacher,
-                ...editFormData,
-              }
+              ...teacher,
+              ...editFormData,
+            }
             : teacher,
         ),
       )
@@ -217,7 +217,7 @@ export default function TeachersPage() {
 
     try {
       setDeleteLoading(id)
-      const response = await fetch(`http://localhost:5000/api/users/delete/${id}`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/users/delete/${id}`, {
         method: "DELETE",
       })
 

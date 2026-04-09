@@ -21,6 +21,7 @@ import {
   FileText,
 } from "lucide-react"
 import Link from "next/link"
+import { API_BASE_URL } from "@/lib/api"
 
 // Types for API data
 interface StockOutRecord {
@@ -74,8 +75,6 @@ interface EnrichedStockOutRecord extends StockOutRecord {
   officeName: string
   userRole: string
 }
-
-const API_BASE_URL = "http://localhost:5000"
 
 function DeleteConfirmModal({
   isOpen,

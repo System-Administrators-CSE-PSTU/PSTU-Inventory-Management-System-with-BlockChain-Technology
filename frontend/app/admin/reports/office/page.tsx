@@ -73,7 +73,7 @@ export default function OfficeReport() {
     if (!mounted) return
     const fetchAllOffices = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/offices/get")
+        const res = await fetch(`${process.env.BACKEND_URL}/api/offices/get`)
         if (res.ok) {
           const data = await res.json()
           setAllOffices(Array.isArray(data) ? data : [])
@@ -107,13 +107,13 @@ export default function OfficeReport() {
     setShowSuggestions(false)
 
     try {
-      const itemsRes = await fetch("http://localhost:5000/api/items/get")
+      const itemsRes = await fetch(`${process.env.BACKEND_URL}/api/items/get`)
       if (!itemsRes.ok) throw new Error("Failed to fetch items")
       const allItems = await itemsRes.json()
 
-      const stockInRes = await fetch(`http://localhost:5000/api/stockins/office/${office._id}`)
-      const stockOutRes = await fetch(`http://localhost:5000/api/stockouts/office/${office._id}`)
-      const deadStocksRes = await fetch(`http://localhost:5000/api/deadstocks/office/${office._id}`)
+      const stockInRes = await fetch(`${process.env.BACKEND_URL}/api/stockins/office/${office._id}`)
+      const stockOutRes = await fetch(`${process.env.BACKEND_URL}/api/stockouts/office/${office._id}`)
+      const deadStocksRes = await fetch(`${process.env.BACKEND_URL}/api/deadstocks/office/${office._id}`)
 
       let stockInData: Record<string, number> = {}
       let stockOutData: Record<string, number> = {}
@@ -123,9 +123,9 @@ export default function OfficeReport() {
         const data = await stockInRes.json()
         stockInData = Array.isArray(data)
           ? data.reduce((acc: Record<string, number>, item: any) => {
-              acc[item.item_id] = (acc[item.item_id] || 0) + (item.quantity || 0)
-              return acc
-            }, {})
+            acc[item.item_id] = (acc[item.item_id] || 0) + (item.quantity || 0)
+            return acc
+          }, {})
           : {}
       }
 
@@ -133,9 +133,9 @@ export default function OfficeReport() {
         const data = await stockOutRes.json()
         stockOutData = Array.isArray(data)
           ? data.reduce((acc: Record<string, number>, item: any) => {
-              acc[item.item_id] = (acc[item.item_id] || 0) + (item.quantity || 0)
-              return acc
-            }, {})
+            acc[item.item_id] = (acc[item.item_id] || 0) + (item.quantity || 0)
+            return acc
+          }, {})
           : {}
       }
 
@@ -143,9 +143,9 @@ export default function OfficeReport() {
         const data = await deadStocksRes.json()
         deadStockData = Array.isArray(data)
           ? data.reduce((acc: Record<string, number>, item: any) => {
-              acc[item.item_id] = (acc[item.item_id] || 0) + (item.quantity || 0)
-              return acc
-            }, {})
+            acc[item.item_id] = (acc[item.item_id] || 0) + (item.quantity || 0)
+            return acc
+          }, {})
           : {}
       }
 
@@ -248,11 +248,10 @@ export default function OfficeReport() {
       reportDiv.innerHTML = `
         <div style="font-family: Arial, sans-serif; padding: 20px; background-color: white;">
           <div style="text-align:center; margin-bottom: 15px;">
-            ${
-              logoBase64
-                ? `<img src="${logoBase64}" alt="PSTU Logo" style="width:90px; height:90px; border-radius:50%; margin:0 auto 10px; object-fit: cover; display:block; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" />`
-                : `<div style="width:90px; height:90px; margin:0 auto 10px; background-color:#f0f0f0; border: 1px solid #ddd; display:flex; align-items:center; justify-content:center; font-size:10px; color:#999; border-radius:50%;">Logo</div>`
-            }
+            ${logoBase64
+          ? `<img src="${logoBase64}" alt="PSTU Logo" style="width:90px; height:90px; border-radius:50%; margin:0 auto 10px; object-fit: cover; display:block; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" />`
+          : `<div style="width:90px; height:90px; margin:0 auto 10px; background-color:#f0f0f0; border: 1px solid #ddd; display:flex; align-items:center; justify-content:center; font-size:10px; color:#999; border-radius:50%;">Logo</div>`
+        }
           </div>
 
           <div style="text-align:center; margin-bottom: 20px;">

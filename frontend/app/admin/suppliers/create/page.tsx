@@ -44,39 +44,39 @@ export default function CreateSupplier() {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  // Validate the form before submitting
-  if (!validateForm()) return;
+    // Validate the form before submitting
+    if (!validateForm()) return;
 
-  setLoading(true);
+    setLoading(true);
 
-  try {
-    // Sending the form data to the API using fetch
-    const response = await fetch("http://localhost:5000/api/suppliers/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),  // Sending formData as JSON
-    });
+    try {
+      // Sending the form data to the API using fetch
+      const response = await fetch(`${process.env.BACKEND_URL}/api/suppliers/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),  // Sending formData as JSON
+      });
 
-    if (!response.ok) {
-      throw new Error("Failed to create supplier");
+      if (!response.ok) {
+        throw new Error("Failed to create supplier");
+      }
+
+      const supplier = await response.json();
+
+      setSuccess(true);  // Set success state to true after successfully saving
+      setLoading(false);
+      setFormData({ name: "", contactPerson: "", phone: "", email: "", address: "" });
+      setErrors({});
+    } catch (err) {
+      setLoading(false);
+      setErrors({ general: "Error while creating supplier. Please try again." });
+      console.error(err);  // Log the error for debugging
     }
-
-    const supplier = await response.json();
-    
-    setSuccess(true);  // Set success state to true after successfully saving
-    setLoading(false);
-    setFormData({ name: "", contactPerson: "", phone: "", email: "", address: "" });
-    setErrors({});
-  } catch (err) {
-    setLoading(false);
-    setErrors({ general: "Error while creating supplier. Please try again." });
-    console.error(err);  // Log the error for debugging
-  }
-};
+  };
 
 
   const handleChange = (field: string, value: string) => {

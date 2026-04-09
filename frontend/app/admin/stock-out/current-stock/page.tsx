@@ -65,21 +65,21 @@ export default function CurrentStockInPage() {
         setError("")
 
         // Fetch stock records
-        const stockResponse = await fetch("http://localhost:5000/api/currentstockouts/get")
+        const stockResponse = await fetch(`${process.env.BACKEND_URL}/api/currentstockouts/get`)
         if (!stockResponse.ok) {
           throw new Error("Failed to fetch stock records")
         }
         const stockData: StockRecord[] = await stockResponse.json()
 
         // Fetch users
-        const usersResponse = await fetch("http://localhost:5000/api/users/get")
+        const usersResponse = await fetch(`${process.env.BACKEND_URL}/api/users/get`)
         if (!usersResponse.ok) {
           throw new Error("Failed to fetch users")
         }
         const usersData: User[] = await usersResponse.json()
 
         // Fetch products
-        const productsResponse = await fetch("http://localhost:5000/api/items/get")
+        const productsResponse = await fetch(`${process.env.BACKEND_URL}/api/items/get`)
         if (!productsResponse.ok) {
           throw new Error("Failed to fetch products")
         }
@@ -102,7 +102,7 @@ export default function CurrentStockInPage() {
           try {
             const departmentResponses = await Promise.all(
               uniqueDepartmentIds.map((deptId) =>
-                fetch(`http://localhost:5000/api/departments/get/${deptId}`)
+                fetch(`${process.env.BACKEND_URL}/api/departments/get/${deptId}`)
                   .then((res) => ({ deptId, res }))
                   .catch((err) => ({ deptId, error: err })),
               ),
@@ -208,7 +208,7 @@ export default function CurrentStockInPage() {
 
     try {
       setDeleteLoading(id)
-      const response = await fetch(`http://localhost:5000/api/stockins/delete/${id}`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/stockins/delete/${id}`, {
         method: "DELETE",
       })
 

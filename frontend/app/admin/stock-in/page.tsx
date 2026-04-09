@@ -92,28 +92,28 @@ export default function StockInPage() {
         setError("")
 
         // Fetch stock in records
-        const stockInResponse = await fetch("http://localhost:5000/api/stockins/get")
+        const stockInResponse = await fetch(`${process.env.BACKEND_URL}/api/stockins/get`)
         if (!stockInResponse.ok) {
           throw new Error("Failed to fetch stock in records")
         }
         const stockInData: StockInRecord[] = await stockInResponse.json()
 
         // Fetch suppliers
-        const suppliersResponse = await fetch("http://localhost:5000/api/suppliers/get")
+        const suppliersResponse = await fetch(`${process.env.BACKEND_URL}/api/suppliers/get`)
         if (!suppliersResponse.ok) {
           throw new Error("Failed to fetch suppliers")
         }
         const suppliersData: Supplier[] = await suppliersResponse.json()
 
         // Fetch users
-        const usersResponse = await fetch("http://localhost:5000/api/users/get")
+        const usersResponse = await fetch(`${process.env.BACKEND_URL}/api/users/get`)
         if (!usersResponse.ok) {
           throw new Error("Failed to fetch users")
         }
         const usersData: User[] = await usersResponse.json()
 
         // Fetch products
-        const productsResponse = await fetch("http://localhost:5000/api/items/get")
+        const productsResponse = await fetch(`${process.env.BACKEND_URL}/api/items/get`)
         if (!productsResponse.ok) {
           throw new Error("Failed to fetch products")
         }
@@ -146,7 +146,7 @@ export default function StockInPage() {
             // Fetch all departments in parallel
             const departmentResponses = await Promise.all(
               uniqueDepartmentIds.map((deptId) =>
-                fetch(`http://localhost:5000/api/departments/get/${deptId}`)
+                fetch(`${process.env.BACKEND_URL}/api/departments/get/${deptId}`)
                   .then((res) => ({ deptId, res }))
                   .catch((err) => ({ deptId, error: err })),
               ),
@@ -270,7 +270,7 @@ export default function StockInPage() {
         throw new Error("Record not found")
       }
 
-      const response = await fetch(`http://localhost:5000/api/stockins/delete/${id}`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/stockins/delete/${id}`, {
         method: "DELETE",
       })
 
@@ -279,7 +279,7 @@ export default function StockInPage() {
       }
 
       try {
-        await fetch("http://localhost:5000/api/currentstockins/update-quantity", {
+        await fetch(`${process.env.BACKEND_URL}/api/currentstockins/update-quantity`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -334,7 +334,7 @@ export default function StockInPage() {
 
     try {
       setUpdateLoading(true)
-      const response = await fetch(`http://localhost:5000/api/stockins/update/${editingRecord._id}`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/stockins/update/${editingRecord._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -351,7 +351,7 @@ export default function StockInPage() {
       const quantityDifference = updatedData.quantity - editingRecord.quantity
       if (quantityDifference !== 0) {
         try {
-          await fetch("http://localhost:5000/api/currentstockins/update-quantity", {
+          await fetch(`${process.env.BACKEND_URL}/api/currentstockins/update-quantity`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -370,13 +370,13 @@ export default function StockInPage() {
       const updatedRecords = stockInRecords.map((record) =>
         record._id === editingRecord._id
           ? {
-              ...record,
-              quantity: updatedData.quantity,
-              unit_price: updatedData.unit_price,
-              total_price: updatedData.total_price,
-              purchase_date: updatedData.purchase_date,
-              remarks: updatedData.remarks,
-            }
+            ...record,
+            quantity: updatedData.quantity,
+            unit_price: updatedData.unit_price,
+            total_price: updatedData.total_price,
+            purchase_date: updatedData.purchase_date,
+            remarks: updatedData.remarks,
+          }
           : record,
       )
 

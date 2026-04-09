@@ -64,7 +64,7 @@ export default function CreateItem() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/items/create", {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/items/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

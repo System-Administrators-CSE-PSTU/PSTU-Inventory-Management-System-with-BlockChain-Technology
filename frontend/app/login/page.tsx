@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useRouter } from "next/navigation"
 import { ForgotPasswordModal } from "@/components/forgot-password-modal"
+import { apiUrl } from "@/lib/api"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -27,7 +28,7 @@ export default function LoginPage() {
 
     try {
       // Make the POST request to your backend API
-      const response = await fetch("http://localhost:5000/api/users/login", {
+      const response = await fetch(apiUrl("/api/users/login"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
