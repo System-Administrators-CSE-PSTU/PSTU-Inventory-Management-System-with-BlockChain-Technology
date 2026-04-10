@@ -32,14 +32,16 @@ import {
 import { blockchainRoutes, startBlockchainVerificationJob } from "./block_page.js";
 
 const app = express();
-const PORT = Number.parseInt(process.env.PORT || "5000", 10);
+const PORT = Number.parseInt(process.env.PORT || "3000", 10);
 const FRONTEND_URL = (process.env.FRONTEND_URL || "").trim();
 
 if (!Number.isFinite(PORT) || PORT <= 0) {
   throw new Error("Invalid PORT value.");
 }
 
-connectDB();
+connectDB().catch((error) => {
+  console.error("MongoDB connection failed. App is running in degraded mode.", error);
+});
 
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use(
@@ -61,6 +63,10 @@ app.use(
 );
 app.use(express.json());
 
+app.get("/", (_req, res) => {
+  res.status(200).send("PSTU Inventory backend is running.");
+});
+
 app.use("/api/departments", departmentRoutes);
 app.use("/api/offices", officeRoutes);
 app.use("/api/suppliers", supplierRoutes);
@@ -79,7 +85,11 @@ app.use("/api/stockInRequest", stockInRequestRoutes);
 
 app.use("/api/blockchain", blockchainRoutes)
 
-startBlockchainVerificationJob()
+try {
+  startBlockchainVerificationJob();
+} catch (error) {
+  console.error("Blockchain verification job failed to start.", error);
+}
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
