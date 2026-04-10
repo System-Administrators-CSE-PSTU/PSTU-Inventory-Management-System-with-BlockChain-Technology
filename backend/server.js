@@ -32,11 +32,11 @@ import {
 import { blockchainRoutes, startBlockchainVerificationJob } from "./block_page.js";
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = Number.parseInt(process.env.PORT || "5000", 10);
 const FRONTEND_URL = (process.env.FRONTEND_URL || "").trim();
 
-if (!PORT) {
-  throw new Error("PORT environment variable is required.");
+if (!Number.isFinite(PORT) || PORT <= 0) {
+  throw new Error("Invalid PORT value.");
 }
 
 connectDB();
